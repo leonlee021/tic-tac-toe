@@ -22,15 +22,21 @@ const player = (sign) => {
 };
 
 const gameFlow = (() => {
+    console.log("starting game flow");
+    const fieldElements = document.querySelectorAll(".field");
+    const playerO = player("O").getSign();
+    const playerX = player("X").getSign();
+    let lastPlayed = playerX;
+    let moveCount = 0;
 
     const gameOver = () => {
         if (winnerFound()){
-            alert("WINNER!");
+            console.log("WINNER!");
             gameBoard.resetBoard();
             return true;
         }
         else if (drawFound()){
-            alert("DRAW");
+            console.log("DRAW");
             gameBoard.resetBoard();
             return true;
         }
@@ -40,27 +46,11 @@ const gameFlow = (() => {
         }
     };
 
-    if (!gameOver){
-        if (lastPlayed == playerO){
-            makeMove(playerX);
-        }
-        else{
-            makeMove(playerO);
-        }
-    }
-
-    const fieldElements = document.querySelectorAll(".field");
-    const playerO = player("O");
-    const playerX = player("X");
-    let lastPlayed;
-
     const drawFound = () => {
-        for (let i = 0; i < 9; i++){
-            if (gameBoard.board[i] !== null){
-                return false;
-            }
+        if (moveCount === 8){
+            return true;
         }
-        return true;
+        return false;
     }
     
     const winnerFound = () => {
@@ -77,20 +67,37 @@ const gameFlow = (() => {
                 }
             }
         }
+        for (let i = 0; i < 7; i++){
+            score = 0;
+            for (let k = 0; k < 3; k++){
+                if (gameBoard.board[winningCombos[i][k]]==="X"){
+                    score ++;
+                    if (score === 3){
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
      }
+    
+    let currentPlayer = playerO;
 
-    lastPlayed = playerX;
-    
-    const makeMove = (currentPlayer) => {
-        fieldElements.forEach(fieldElement => fieldElement.addEventListener("click",function(){
-            fieldElement.textContent = currentPlayer.getSign();
-            console.log(currentPlayer.getSign());
-            gameBoard.board[fieldElement.dataset.indexNumber] = currentPlayer.getSign(); 
-            lastPlayed = currentPlayer;
+    fieldElements.forEach(fieldElement => fieldElement.addEventListener("click",function(){
+        fieldElement.textContent = currentPlayer;
+        gameBoard.board[fieldElement.dataset.indexNumber] = currentPlayer; 
+        if (gameOver()){
             return;
-        }));
-     };
-    
-     return {makeMove};
+        }
+        else{
+            let temp = lastPlayed;
+            lastPlayed = currentPlayer;
+            currentPlayer = temp;
+            moveCount = moveCount + 1;
+            console.log("move count" + moveCount);
+            return;
+        }
+    }))
+
+    return {};
     })();
