@@ -17,11 +17,12 @@ h1{
 
 .field{
     border: 3px solid black;
-    padding: 5px;
+    // padding: 5px;
     text-align: center;
     aspect-ratio: 1;
     cursor: pointer;
-    font-size: 6rem;
+    font-size: clamp(2rem, 7vw, 5rem);
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
