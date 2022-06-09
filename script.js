@@ -88,6 +88,7 @@ const gameFlow = (() => {
     restartButton.addEventListener("click", function(){
         gameBoard.resetBoardArray();
         fieldElements.forEach(fieldElement => fieldElement.textContent = "");
+        turnMessage.textContent = "Player O's Turn!";
     })
     
     let currentPlayer = playerO;
@@ -120,7 +121,7 @@ const gameFlow = (() => {
                 let temp = lastPlayed;
                 lastPlayed = currentPlayer;
                 currentPlayer = temp;
-                turnMessage.textContent = "Player " + currentPlayer + "'s Turn";
+                turnMessage.textContent = "Player " + currentPlayer + "'s Turn!";
                 moveCount = moveCount + 1;
                 console.log("move count" + moveCount);
                 return;
