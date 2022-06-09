@@ -29,6 +29,7 @@ const gameFlow = (() => {
     const playerX = player("X").getSign();
     let lastPlayed = playerX;
     let moveCount = 0;
+    let winner;
 
     const gameOver = () => {
         if (winnerFound()){
@@ -46,10 +47,12 @@ const gameFlow = (() => {
     };
 
     const drawFound = () => {
-        if (moveCount === 8){
-            return true;
+        for (let i = 0; i < 9; i++){
+            if (gameBoard.board[i] === ""){
+                return false;
+            }
         }
-        return false;
+        return true;
     }
     
     const winnerFound = () => {
@@ -61,6 +64,7 @@ const gameFlow = (() => {
                 if (gameBoard.board[winningCombos[i][k]]==="O"){
                     score ++;
                     if (score === 3){
+                        winner = playerO;
                         return true;
                     }
                 }
@@ -72,6 +76,7 @@ const gameFlow = (() => {
                 if (gameBoard.board[winningCombos[i][k]]==="X"){
                     score ++;
                     if (score === 3){
+                        winner = playerX;
                         return true;
                     }
                 }
@@ -89,19 +94,33 @@ const gameFlow = (() => {
 
     fieldElements.forEach(fieldElement => fieldElement.addEventListener("click",function(){
         if (gameOver()){
-            console.log("WHY U TAP AGAIN");
-            return;
+            if (winnerFound()){
+                turnMessage.textContent = "Player " + winner + " Wins!";
+                return;
+            }
+            else{
+                turnMessage.textContent = "It's a Draw!";
+                return;
+            }
         }
         else{
             fieldElement.textContent = currentPlayer;
             gameBoard.board[fieldElement.dataset.indexNumber] = currentPlayer; 
             if (gameOver()){
-                return;
+                if (winnerFound()){
+                    turnMessage.textContent = "Player " + winner + " Wins!";
+                    return;
+                }
+                else{
+                    turnMessage.textContent = "It's a Draw!";
+                    return;
+                }
             }
             else{
                 let temp = lastPlayed;
                 lastPlayed = currentPlayer;
                 currentPlayer = temp;
+                turnMessage.textContent = "Player " + currentPlayer + "'s Turn";
                 moveCount = moveCount + 1;
                 console.log("move count" + moveCount);
                 return;
