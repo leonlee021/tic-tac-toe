@@ -1,9 +1,18 @@
+html{
+    font-family: 'Antic Slab', serif;
+}
+
+h1{
+    font-size: 4rem;
+    margin: 10px 0px;
+}
+
 .gameboard{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     background-color: rgb(204, 255, 255);
     border: 3px solid black;
-    width: 40%;
+    width: 32.5%;
 }
 
 .field{
@@ -16,10 +25,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    &:hover{
+        background-color: rgb(81, 253, 253);
+    }
 }
 
-#container{
+#container2{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#turn_message{
+    font-size: 2rem;
+    margin: 20px 0px;
+}
+
+button{
+    border: none;
+    text-decoration: none;
+    padding: 10px 35px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    background-color: rgb(255, 71, 71);
+    &:hover{
+        background-color: rgb(160, 23, 23);
+    }
+    margin: 30px 0px;
+    font-family: 'Antic Slab', serif;
 }

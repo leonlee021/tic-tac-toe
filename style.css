@@ -1,3 +1,12 @@
+html {
+  font-family: 'Antic Slab', serif;
+}
+
+h1 {
+  font-size: 4rem;
+  margin: 10px 0px;
+}
+
 .gameboard {
   display: -ms-grid;
   display: grid;
@@ -5,7 +14,7 @@
       grid-template-columns: repeat(3, 1fr);
   background-color: #ccffff;
   border: 3px solid black;
-  width: 40%;
+  width: 32.5%;
 }
 
 .field {
@@ -26,7 +35,11 @@
           justify-content: center;
 }
 
-#container {
+.field:hover {
+  background-color: #51fdfd;
+}
+
+#container2 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -37,5 +50,26 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+#turn_message {
+  font-size: 2rem;
+  margin: 20px 0px;
+}
+
+button {
+  border: none;
+  text-decoration: none;
+  padding: 10px 35px;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  background-color: #ff4747;
+  margin: 30px 0px;
+  font-family: 'Antic Slab', serif;
+}
+
+button:hover {
+  background-color: #a01717;
 }
 /*# sourceMappingURL=style.css.map */

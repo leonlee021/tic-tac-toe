@@ -4,13 +4,13 @@ const gameBoard = (() => {
 
     const board = ["","","","","","","","",""];
 
-    const resetBoard = () => {
+    const resetBoardArray = () => {
         for (let i = 0; i < 9; i++){
             board[i] = "";
         }
     }
 
-    return {board, resetBoard};
+    return {board, resetBoardArray};
 })();
 
 const player = (sign) => {
@@ -22,8 +22,9 @@ const player = (sign) => {
 };
 
 const gameFlow = (() => {
-    console.log("starting game flow");
     const fieldElements = document.querySelectorAll(".field");
+    const turnMessage = document.getElementById("turn_message");
+    const restartButton = document.querySelector("button");
     const playerO = player("O").getSign();
     const playerX = player("X").getSign();
     let lastPlayed = playerX;
@@ -32,12 +33,10 @@ const gameFlow = (() => {
     const gameOver = () => {
         if (winnerFound()){
             console.log("WINNER!");
-            gameBoard.resetBoard();
             return true;
         }
         else if (drawFound()){
             console.log("DRAW");
-            gameBoard.resetBoard();
             return true;
         }
         else{
@@ -55,8 +54,8 @@ const gameFlow = (() => {
     
     const winnerFound = () => {
         let score;
-        const winningCombos = [[0,1,2],[0,4,8],[0,3,6],[1,4,7],[2,4,6],[3,4,5],[6,7,8]];
-        for (let i = 0; i < 7; i++){
+        const winningCombos = [[0,1,2],[0,4,8],[0,3,6],[1,4,7],[2,4,6],[3,4,5],[6,7,8],[2,5,8]];
+        for (let i = 0; i < 8; i++){
             score = 0;
             for (let k = 0; k < 3; k++){
                 if (gameBoard.board[winningCombos[i][k]]==="O"){
@@ -67,7 +66,7 @@ const gameFlow = (() => {
                 }
             }
         }
-        for (let i = 0; i < 7; i++){
+        for (let i = 0; i < 8; i++){
             score = 0;
             for (let k = 0; k < 3; k++){
                 if (gameBoard.board[winningCombos[i][k]]==="X"){
@@ -80,22 +79,33 @@ const gameFlow = (() => {
         }
         return false;
      }
+
+    restartButton.addEventListener("click", function(){
+        gameBoard.resetBoardArray();
+        fieldElements.forEach(fieldElement => fieldElement.textContent = "");
+    })
     
     let currentPlayer = playerO;
 
     fieldElements.forEach(fieldElement => fieldElement.addEventListener("click",function(){
-        fieldElement.textContent = currentPlayer;
-        gameBoard.board[fieldElement.dataset.indexNumber] = currentPlayer; 
         if (gameOver()){
+            console.log("WHY U TAP AGAIN");
             return;
         }
         else{
-            let temp = lastPlayed;
-            lastPlayed = currentPlayer;
-            currentPlayer = temp;
-            moveCount = moveCount + 1;
-            console.log("move count" + moveCount);
-            return;
+            fieldElement.textContent = currentPlayer;
+            gameBoard.board[fieldElement.dataset.indexNumber] = currentPlayer; 
+            if (gameOver()){
+                return;
+            }
+            else{
+                let temp = lastPlayed;
+                lastPlayed = currentPlayer;
+                currentPlayer = temp;
+                moveCount = moveCount + 1;
+                console.log("move count" + moveCount);
+                return;
+            }
         }
     }))
 
